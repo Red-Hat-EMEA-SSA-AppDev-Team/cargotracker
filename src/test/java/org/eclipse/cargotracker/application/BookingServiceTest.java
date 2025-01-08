@@ -17,7 +17,6 @@ import javax.persistence.PersistenceContext;
 import org.apache.commons.lang3.time.DateUtils;
 import org.eclipse.cargotracker.application.internal.DefaultBookingService;
 import org.eclipse.cargotracker.application.util.DateUtil;
-import org.eclipse.cargotracker.application.util.JsonMoxyConfigurationContextResolver;
 import org.eclipse.cargotracker.domain.model.cargo.Cargo;
 import org.eclipse.cargotracker.domain.model.cargo.CargoRepository;
 import org.eclipse.cargotracker.domain.model.cargo.Delivery;
@@ -118,7 +117,6 @@ public class BookingServiceTest {
 				.addClass(JpaCargoRepository.class).addClass(JpaVoyageRepository.class)
 				.addClass(JpaHandlingEventRepository.class).addClass(JpaLocationRepository.class)
 				.addClass(ExternalRoutingService.class).addClass(LoggerProducer.class)
-				.addClass(JsonMoxyConfigurationContextResolver.class)
 				// Interface components
 				.addClass(TransitPath.class).addClass(TransitEdge.class)
 				// Third-party system simulator
