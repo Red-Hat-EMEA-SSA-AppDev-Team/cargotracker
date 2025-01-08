@@ -68,39 +68,43 @@
 
 	<!-- Defining these at the application server level instead of here can 
 		be more operations friendly and help make deployment even faster. -->
-	<data-source>
+	<!-- <data-source>
 		<name>java:app/jdbc/CargoTrackerDatabase</name>
 		<class-name>org.apache.derby.jdbc.EmbeddedDriver</class-name>
 		<url>jdbc:derby:${webapp.databaseTempDir}/cargo-tracker-database;create=true</url>
-	</data-source>
+	</data-source> -->
+	<data-source>
+        <name>java:app/jdbc/CargoTrackerDatabase</name>
+        <class-name>org.h2.jdbcx.JdbcDataSource</class-name>
+        <url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1</url>
+        <user>sa</user>
+        <password>sa</password>
+        <max-pool-size>32</max-pool-size>
+        <min-pool-size>2</min-pool-size>
+    </data-source>
 	<jms-destination>
 		<name>java:app/jms/CargoHandledQueue</name>
 		<interface-name>javax.jms.Queue</interface-name>
-		<resource-adapter>jmsra</resource-adapter>
 		<destination-name>CargoHandledQueue</destination-name>
 	</jms-destination>
 	<jms-destination>
 		<name>java:app/jms/MisdirectedCargoQueue</name>
 		<interface-name>javax.jms.Queue</interface-name>
-		<resource-adapter>jmsra</resource-adapter>
 		<destination-name>MisdirectedCargoQueue</destination-name>
 	</jms-destination>
 	<jms-destination>
 		<name>java:app/jms/DeliveredCargoQueue</name>
 		<interface-name>javax.jms.Queue</interface-name>
-		<resource-adapter>jmsra</resource-adapter>
 		<destination-name>DeliveredCargoQueue</destination-name>
 	</jms-destination>
 	<jms-destination>
 		<name>java:app/jms/RejectedRegistrationAttemptsQueue</name>
 		<interface-name>javax.jms.Queue</interface-name>
-		<resource-adapter>jmsra</resource-adapter>
 		<destination-name>RejectedRegistrationAttemptsQueue</destination-name>
 	</jms-destination>
 	<jms-destination>
 		<name>java:app/jms/HandlingEventRegistrationAttemptQueue</name>
 		<interface-name>javax.jms.Queue</interface-name>
-		<resource-adapter>jmsra</resource-adapter>
 		<destination-name>HandlingEventRegistrationAttemptQueue</destination-name>
 	</jms-destination>
 </web-app>
