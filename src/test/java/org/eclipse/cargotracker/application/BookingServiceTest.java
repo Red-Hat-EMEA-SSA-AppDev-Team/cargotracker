@@ -124,7 +124,6 @@ public class BookingServiceTest {
 				// Sample data.
 				.addClass(BookingServiceTestDataGenerator.class).addClass(SampleLocations.class)
 				.addClass(SampleVoyages.class).addClass(DateUtil.class)
-				.addClass(BookingServiceTestRestConfiguration.class)
 				.addAsResource("META-INF/persistence.xml", "META-INF/persistence.xml");
 
 		war.addAsWebInfResource("test-web.xml", "web.xml");

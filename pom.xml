@@ -160,26 +160,66 @@
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
+			<properties>
+				<payara.version>5.2022.5</payara.version>
+				<!-- Application properties -->
+				<webapp.graphTraversalUrl>
+					http://localhost:8080/cargo-tracker/rest/graph-traversal/shortest-path</webapp.graphTraversalUrl>
+				<db.driverClass>org.h2.jdbcx.JdbcDataSource</db.driverClass>
+				<!-- H2 file engine requires an absolute path, eg. ~/name, ./name or a full-qualified 
+					path name (it should include driver name under Windows). -->
+				<db.jdbcUrl>jdbc:h2:file:./cargo-tracker-data/cargo-tracker-database;create=true</db.jdbcUrl>
+				<db.user />
+				<db.password />
+			</properties>
 			<dependencies>
+				<!-- We need a Jersey specific dependency -->
+				<dependency>
+					<groupId>org.glassfish.jersey.core</groupId>
+					<artifactId>jersey-server</artifactId>
+					<version>3.1.2</version>
+					<scope>provided</scope>
+				</dependency>
+				<!-- Embedding the JDBC driver in the WAR works in Payara -->
+				<dependency>
+					<groupId>com.h2database</groupId>
+					<artifactId>h2</artifactId>
+					<version>2.0.206</version>
+					<scope>runtime</scope>
+				</dependency>
+				<dependency>
+					<groupId>fish.payara.extras</groupId>
+					<artifactId>payara-micro</artifactId>
+					<version>${payara.version}</version>
+					<scope>test</scope>
+				</dependency>
 				<dependency>
 					<groupId>fish.payara.arquillian</groupId>
-					<artifactId>arquillian-payara-server-4-remote</artifactId>
-					<version>1.1</version>
+					<artifactId>arquillian-payara-micro-managed</artifactId>
+					<version>2.4.5</version>
 					<scope>test</scope>
 				</dependency>
 			</dependencies>
 			<build>
 				<plugins>
 					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>3.1.2</version>
+					</plugin>
+					<plugin>
 						<groupId>org.codehaus.cargo</groupId>
-						<artifactId>cargo-maven2-plugin</artifactId>
-						<version>${cargo.version}</version>
+						<artifactId>cargo-maven3-plugin</artifactId>
+						<version>1.10.7</version>
 						<configuration>
 							<container>
-								<containerId>${cargo.payara.container_id}</containerId>
-								<zipUrlInstaller>
-									<url>${cargo.payara.download_uri}</url>
-								</zipUrlInstaller>
+								<containerId>payara</containerId>
+								<artifactInstaller>
+									<groupId>fish.payara.distributions</groupId>
+									<artifactId>payara</artifactId>
+									<version>${payara.version}</version>
+								</artifactInstaller>
+								<timeout>180000</timeout>
 							</container>
 						</configuration>
 					</plugin>
