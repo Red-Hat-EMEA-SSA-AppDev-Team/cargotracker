@@ -14,6 +14,8 @@
 			<!-- The default log level of info is best for production, want to see 
 				verbose output for development. -->
 			<property name="eclipselink.logging.level" value="FINEST" />
+			<!-- JBoss EAP migration -->
+			<property name="hibernate.enable_lazy_load_no_trans" value="true"/>
 		</properties>
 	</persistence-unit>
 </persistence>
