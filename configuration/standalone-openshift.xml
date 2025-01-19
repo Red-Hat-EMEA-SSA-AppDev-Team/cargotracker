@@ -146,7 +146,7 @@
                    </driver>
                 </drivers>
                 <datasource jndi-name="java:/jdbc/CargoTrackerDatabase" pool-name="postgresDS" enabled="true" jta="false" use-java-context="true" use-ccm="false">
-                  <connection-url>jdbc:postgresql://cargo-postgres:5432/cargodb</connection-url>
+                  <connection-url>jdbc:postgresql://${env.CARGO_POSTGRES_HOST}:${env.CARGO_POSTGRES_PORT}/${env.CARGO_POSTGRES_NAME}</connection-url>
                   <driver-class>org.postgresql.Driver</driver-class>
                   <driver>postgresql</driver>
                   <pool>
@@ -154,8 +154,8 @@
                     <max-pool-size>20</max-pool-size>
                   </pool>
                   <security>
-                    <user-name>username</user-name>
-                    <password>password</password>
+                    <user-name>${env.CARGO_POSTGRES_USERNAME}</user-name>
+                    <password>${env.CARGO_POSTGRES_PASSWORD}</password>
                   </security>
 		</datasource>
             </datasources>
