@@ -48,6 +48,8 @@
 		<webapp.graphTraversalUrl>
 			http://localhost:8080/cargo-tracker/rest/graph-traversal/shortest-path
 		</webapp.graphTraversalUrl>
+		<!-- default jboss datasource naming convention -->
+		<datasource.jndi>java:/jdbc/CargoTrackerDatabase</datasource.jndi>
 	</properties>
 
 	<dependencyManagement>
@@ -150,7 +152,26 @@
 					<skipTests>${skipTests}</skipTests>
 				</configuration>
 			</plugin>
-
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.3.1</version> <executions>
+				<execution>
+					<id>default-resources</id>
+					<phase>process-resources</phase>
+					<goals>
+					<goal>resources</goal>
+					</goals>
+					<configuration>
+					<resources>
+						<resource>
+						<directory>src/main/resources</directory>
+						<filtering>true</filtering>  </resource>
+					</resources>
+					</configuration>
+				</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -158,7 +179,7 @@
 		<profile>
 			<id>payara</id>
 			<activation>
-				<activeByDefault>true</activeByDefault>
+				<activeByDefault>false</activeByDefault>
 			</activation>
 			<properties>
 				<payara.version>5.2022.5</payara.version>
@@ -171,6 +192,7 @@
 				<db.jdbcUrl>jdbc:h2:file:./cargo-tracker-data/cargo-tracker-database;create=true</db.jdbcUrl>
 				<db.user />
 				<db.password />
+				<datasource.jndi>java:app/jdbc/CargoTrackerDatabase</datasource.jndi>
 			</properties>
 			<dependencies>
 				<!-- We need a Jersey specific dependency -->

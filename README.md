@@ -27,7 +27,7 @@ The simplest steps are the following (no IDE required):
 * Ensure you are running Java SE 8. The project by default uses Payara 4.1, which supports Java SE 8.
 * Make sure JAVA_HOME is set.
 * As long as you have Maven set up properly, navigate to the project source root and 
-  type: `mvn package cargo:run`
+  type: `mvn package cargo:run -Ppayara`
 * Go to http://localhost:8080/cargo-tracker
 
 To set up in Eclipse, follow these steps:
