@@ -44,8 +44,9 @@
 
 		<!-- Application properties -->
 		<webapp.databaseTempDir>/tmp</webapp.databaseTempDir>
+		<!-- the following configuration works in jboss eap when spec-descriptor-property-replacement is true, in such a way the endpoint can be configured via environment variables -->
 		<webapp.graphTraversalUrl>
-			http://localhost:8080/cargo-tracker/rest/graph-traversal/shortest-path
+			${env.CARGO_ENDPOINT:http://localhost:8080}/cargo-tracker/rest/graph-traversal/shortest-path
 		</webapp.graphTraversalUrl>
 		<!-- default jboss datasource naming convention -->
 		<datasource.jndi>java:/jdbc/CargoTrackerDatabase</datasource.jndi>
@@ -189,35 +190,26 @@
 
 	<build>
 		<finalName>cargo-tracker</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.3.1</version> <executions>
-				<execution>
-					<id>default-resources</id>
-					<phase>process-resources</phase>
-					<goals>
-					<goal>resources</goal>
-					</goals>
-					<configuration>
-					<resources>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.4.0</version>
+				<configuration>
+					<webResources>
 						<resource>
-						<directory>src/main/resources</directory>
-						<filtering>true</filtering>  </resource>
-					</resources>
-					</configuration>
-				</execution>
-				</executions>
+							<directory>src/main/webapp</directory>
+							<filtering>true</filtering>
+						</resource>
+					</webResources>
+				</configuration>
 			</plugin>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
-                <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
-                </configuration>
-            </plugin>
 		</plugins>
 	</build>
 	<profiles>
@@ -240,14 +232,14 @@
 				<datasource.jndi>java:app/jdbc/CargoTrackerDatabase</datasource.jndi>
 			</properties>
 			<dependencies>
-                <!-- We need a Jersey specific dependency for property name constants -->
+				<!-- We need a Jersey specific dependency for property name constants -->
                 <dependency>
                     <groupId>org.glassfish.jersey.core</groupId>
                     <artifactId>jersey-server</artifactId>
                     <version>3.1.2</version>
                     <scope>provided</scope>
                 </dependency>
-                <!-- Embedding the JDBC driver in the WAR works in GlassFish -->
+				<!-- Embedding the JDBC driver in the WAR works in GlassFish -->
                 <dependency>
                     <groupId>com.h2database</groupId>
                     <artifactId>h2</artifactId>
@@ -260,14 +252,14 @@
                     <version>${payara.version}</version>
                     <scope>test</scope>
                 </dependency>
-                <!-- Payara Micro Managed Container Adapter -->
+				<!-- Payara Micro Managed Container Adapter -->
                 <dependency>
                     <groupId>fish.payara.arquillian</groupId>
                     <artifactId>arquillian-payara-micro-managed</artifactId>
                     <version>3.0.alpha8</version>
                     <scope>test</scope>
                 </dependency>
-                <!-- Needed at the moment for Jakarta EE 10 support -->
+				<!-- Needed at the moment for Jakarta EE 10 support -->
                 <dependency>
                     <groupId>fish.payara.arquillian</groupId>
                     <artifactId>payara-client-ee9</artifactId>
