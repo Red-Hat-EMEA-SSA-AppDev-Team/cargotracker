@@ -12,16 +12,24 @@ commonLabels:
   app.kubernetes.io/part-of: cargo-tracker-app
 
 configMapGenerator:
+- name: jboss-cli
+  files:
+  - s2i/extensions/postconfigure.sh
+  - s2i/extensions/extensions.cli
+  options:
+    disableNameSuffixHash: true
 - name: cargo-tracker-env
   literals:
   - JGROUPS_PING_PROTOCOL=kubernetes.KUBE_PING
   - KUBERNETES_NAMESPACE=cargo-tracker-prj
   - KUBERNETES_LABELS=app=cargo-tracker
+  - CARGO_ENDPOINT=http://cargo-tracker:8080
   - POSTGRESQL_JNDI=java:/jdbc/CargoTrackerDatabase
   - POSTGRESQL_URL=jdbc:postgresql://cargo-tracker-pg:5432/ct-db
   - POSTGRESQL_USER=ct-user
   - POSTGRESQL_PASSWORD=ct-password
-
+  options:
+    disableNameSuffixHash: true
 
 secretGenerator:
 - name: cargo-tracker-pg-env

@@ -66,4 +66,12 @@ spec:
             path: /health/started
             port: 9990
             scheme: HTTP
-          initialDelaySeconds: 10
+          initialDelaySeconds: 30
+        volumeMounts:
+        - name: jboss-cli
+          mountPath: /opt/server/extensions
+      volumes:
+      - name: jboss-cli
+        configMap:
+          name: jboss-cli
+          defaultMode: 0755
