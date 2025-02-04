@@ -39,10 +39,9 @@ COPY --from=builder --chown=jboss:root $JBOSS_HOME $JBOSS_HOME
 #
 #      COPY --chown=jboss:root standalone.xml  $JBOSS_HOME/standalone/configuration
 
-#COPY --chown=jboss:root modules/ $JBOSS_HOME/modules/
+COPY --chown=jboss:root modules/ $JBOSS_HOME/modules/
 COPY --chown=jboss:root deployments/*.war $JBOSS_HOME/standalone/deployments
-# the following is not working
-#COPY --chown=jboss:root configuration/standalone-openshift.xml $JBOSS_HOME/standalone/configuration/standalone.xml
+COPY --chown=jboss:root standalone.xml $JBOSS_HOME/standalone/configuration/standalone.xml
 
 # COPY --chown=jboss:root configuration/ /home/jboss/configuration/
 # COPY --chown=jboss:root install.sh /home/jboss
