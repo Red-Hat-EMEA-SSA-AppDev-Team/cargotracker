@@ -1,0 +1,11 @@
+FROM registry.redhat.io/jboss-eap-7/eap74-openjdk11-openshift-rhel8 AS builder
+COPY *.war /deployments
+RUN /usr/local/s2i/assemble
+
+FROM registry.redhat.io/jboss-eap-7/eap74-openjdk11-runtime-openshift-rhel8 AS runtime
+COPY --from=builder --chown=jboss:root $JBOSS_HOME $JBOSS_HOME
+#RUN mkdir $JBOSS_HOME/modules/org
+#COPY --chown=jboss:root modules/org $JBOSS_HOME/modules/org
+#COPY --chown=jboss:root configuration/standalone-openshift.xml $JBOSS_HOME/standalone/configuration/standalone-openshift.xml
+#COPY --from=builder --chown=jboss:root /deployments/*.war $JBOSS_HOME/standalone/deployments
+CMD /opt/eap/bin/openshift-launch.sh
